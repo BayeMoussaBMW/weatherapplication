@@ -24,7 +24,8 @@ class SecondFragment : Fragment() {
     private val viewModel: WeatherViewModel by activityViewModels {
         WeatherViewModelFactory(
             networkServices = NetworkServices(),
-            (activity?.application as WeatherApplication).database.itemNameDao()
+            (activity?.application as WeatherApplication).database.itemNameDao(),
+            (activity?.application as WeatherApplication).database.dataDao()
         )
     }
 

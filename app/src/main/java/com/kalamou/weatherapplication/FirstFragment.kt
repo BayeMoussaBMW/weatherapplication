@@ -1,7 +1,6 @@
 package com.kalamou.weatherapplication
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,8 @@ class FirstFragment : Fragment() {
     private val viewModel: WeatherViewModel by activityViewModels {
         WeatherViewModelFactory(
             networkServices = NetworkServices(),
-            (activity?.application as WeatherApplication).database.itemNameDao()
+            (activity?.application as WeatherApplication).database.itemNameDao(),
+            (activity?.application as WeatherApplication).database.dataDao()
         )
     }
 
@@ -43,12 +43,13 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = WeatherAdapter {
-            viewModel.getDataToDisplay(it.name)
+            val data = viewModel.getDataToDisplay(it.name)
+            if (data != null) {
+                viewModel.insertNewData(data)
+            }
             findNavController().navigate(R.id.action_FirstFragment_to_weatherCityDetail)
         }
-        /*binding.buttonFirst.setOnClickListener {
-            viewModel.getDataToDisplay("Paris")
-        }*/
+
         binding.recyclerView.adapter = adapter
         viewModel.itemNames.observe(this.viewLifecycleOwner) { items ->
             items.let {

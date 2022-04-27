@@ -5,8 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Dao
 import com.kalamou.weatherapplication.databinding.ItemListBinding
+import com.kalamou.weatherapplication.db.DataDao
 import com.kalamou.weatherapplication.db.model.ItemName
+import com.kalamou.weatherapplication.model.Data
 
 
 class WeatherAdapter(
@@ -18,7 +21,7 @@ class WeatherAdapter(
         fun bind(current: ItemName) {
             binding.apply {
                 nameId.text = current.name
-                temperature.text = "-- °C"
+                temperature.text = data?.main?.temp.toString().plus(" °C")
             }
         }
     }

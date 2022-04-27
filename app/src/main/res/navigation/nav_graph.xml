@@ -13,9 +13,11 @@
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/SecondFragment" />
         <action
             android:id="@+id/action_FirstFragment_to_weatherCityDetail"
+            app:popUpToInclusive="true"
             app:destination="@id/weatherCityDetail" />
     </fragment>
     <fragment
@@ -26,11 +28,12 @@
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/FirstFragment" />
     </fragment>
     <fragment
         android:id="@+id/weatherCityDetail"
         android:name="com.kalamou.weatherapplication.WeatherCityDetail"
-        android:label="fragment_weather_city_detail"
+        android:label="@string/weather_detail_fragment"
         tools:layout="@layout/fragment_weather_city_detail" />
 </navigation>

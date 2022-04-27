@@ -14,7 +14,8 @@ class WeatherCityDetail : Fragment() {
     private val viewModel: WeatherViewModel by activityViewModels {
         WeatherViewModelFactory(
             networkServices = NetworkServices(),
-            (activity?.application as WeatherApplication).database.itemNameDao()
+            (activity?.application as WeatherApplication).database.itemNameDao(),
+            (activity?.application as WeatherApplication).database.dataDao()
         )
     }
 
@@ -26,10 +27,7 @@ class WeatherCityDetail : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-
         _binding = FragmentWeatherCityDetailBinding.inflate(inflater, container, false)
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_weather_city_detail, container, false)
         return binding.root
     }
 
@@ -37,8 +35,9 @@ class WeatherCityDetail : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.data.observe(this.viewLifecycleOwner) {
-            binding.name.text = it?.name
-            binding.temperature.text = it?.main?.temp.toString()
+            viewModel.getData(it!!.id)
+            binding.name.text = it.name
+            binding.temperature.text = it.main?.temp.toString().plus(" °C")
         }
     }
 

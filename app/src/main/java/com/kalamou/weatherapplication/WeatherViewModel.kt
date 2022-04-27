@@ -2,6 +2,7 @@ package com.kalamou.weatherapplication
 
 import androidx.lifecycle.*
 import com.kalamou.weatherapplication.api.NetworkServices
+import com.kalamou.weatherapplication.db.DataDao
 import com.kalamou.weatherapplication.db.ItemNameDao
 import com.kalamou.weatherapplication.db.model.ItemName
 import com.kalamou.weatherapplication.model.Data
@@ -9,7 +10,8 @@ import kotlinx.coroutines.launch
 
 class WeatherViewModel(
     private val networkServices: NetworkServices,
-    private val itemNameDao: ItemNameDao
+    private val itemNameDao: ItemNameDao,
+    private val dataDao: DataDao
 ) : ViewModel() {
 
     val itemNames: LiveData<List<ItemName>> = itemNameDao.getItems().asLiveData()
@@ -29,16 +31,19 @@ class WeatherViewModel(
     val currentItemName: LiveData<Data?>
         get() = _currentItemName
 
-    fun getCurrentItem(id: Int): ItemName{
-        getItem(id)
-        return ItemName(id = id, currentItemName.value!!.name)
-    }
 
     fun getItem(id: Int){
         viewModelScope.launch {
             itemNameDao.getItem(id)
         }
     }
+
+    fun getData(id: Int){
+        viewModelScope.launch {
+          dataDao.getData(id)
+        }
+    }
+
 
     fun addItemNewItem(itemName: String) {
         val newItem = getNewEntry(itemName)
@@ -55,6 +60,16 @@ class WeatherViewModel(
         }
     }
 
+    fun insertNewData(data: Data){
+        insertData(data)
+    }
+
+    private fun insertData(data: Data) {
+        viewModelScope.launch {
+            dataDao.insert(data)
+        }
+    }
+
     fun getDataToDisplay(name: String): Data? {
         viewModelScope.launch {
             val data = networkServices.proceedGetDataByCity(name).body()
@@ -66,12 +81,13 @@ class WeatherViewModel(
 
 class WeatherViewModelFactory(
     private val networkServices: NetworkServices,
-    private val itemNameDao: ItemNameDao
+    private val itemNameDao: ItemNameDao,
+    private val dataDao: DataDao
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(WeatherViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return WeatherViewModel(networkServices, itemNameDao) as T
+            return WeatherViewModel(networkServices, itemNameDao, dataDao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
