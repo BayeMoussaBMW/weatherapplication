@@ -48,6 +48,6 @@ data class Data(
     @ColumnInfo
     @SerialName("wind")
     val wind: Wind?
-){
+) {
     constructor(): this("", null, 0, null, 0, 0, null, "", null, 0, 0, emptyList(), null)
 }

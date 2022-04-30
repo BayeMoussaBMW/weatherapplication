@@ -25,9 +25,9 @@ class FirstFragment : Fragment() {
     }
 
     private var _binding: FragmentFirstBinding? = null
+    private var isLocalSet = false
+    private var isLocalData = false
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(

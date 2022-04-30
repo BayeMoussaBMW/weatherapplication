@@ -1,5 +1,6 @@
 package com.kalamou.weatherapplication
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.*
 import com.kalamou.weatherapplication.api.NetworkServices
 import com.kalamou.weatherapplication.db.DataDao
@@ -15,56 +16,48 @@ class WeatherViewModel(
 ) : ViewModel() {
 
     val itemNames: LiveData<List<ItemName>> = itemNameDao.getItems().asLiveData()
+    val dataList: LiveData<List<Data>> = dataDao.getData().asLiveData()
 
     private var _data = MutableLiveData<Data?>()
 
     val data: LiveData<Data?>
         get() = _data
 
-    private var _currentItemId = MutableLiveData<Int?>()
+    private var _listData = MutableLiveData<List<Data>>()
+    val listData: LiveData<List<Data>>
+        get() = _listData
 
-    val currentItemId: LiveData<Int?>
-        get() = _currentItemId
-
-    private var _currentItemName = MutableLiveData<Data?> ()
-
-    val currentItemName: LiveData<Data?>
-        get() = _currentItemName
-
-
-    fun getItem(id: Int){
+    fun getData(id: Int) {
         viewModelScope.launch {
-            itemNameDao.getItem(id)
-        }
-    }
-
-    fun getData(id: Int){
-        viewModelScope.launch {
-          dataDao.getData(id)
+            dataDao.getData(id)
         }
     }
 
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun addItemNewItem(itemName: String) {
         val newItem = getNewEntry(itemName)
         insertItem(newItem)
     }
 
-    private fun getNewEntry(name: String): ItemName {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun getNewEntry(name: String): ItemName {
         return ItemName(name = name)
     }
 
-    private fun insertItem(itemName: ItemName) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun insertItem(itemName: ItemName) {
         viewModelScope.launch {
             itemNameDao.insert(itemName)
         }
     }
 
-    fun insertNewData(data: Data){
+    fun insertNewData(data: Data) {
         insertData(data)
     }
 
-    private fun insertData(data: Data) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun insertData(data: Data) {
         viewModelScope.launch {
             dataDao.insert(data)
         }

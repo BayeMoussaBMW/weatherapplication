@@ -35,5 +35,10 @@
         android:id="@+id/weatherCityDetail"
         android:name="com.kalamou.weatherapplication.WeatherCityDetail"
         android:label="@string/weather_detail_fragment"
-        tools:layout="@layout/fragment_weather_city_detail" />
+        tools:layout="@layout/fragment_weather_city_detail" >
+        <action
+            android:id="@+id/action_weatherCityDetail_to_FirstFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/FirstFragment" />
+    </fragment>
 </navigation>

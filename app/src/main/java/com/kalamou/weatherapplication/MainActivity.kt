@@ -11,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.navigation.fragment.findNavController
 import com.kalamou.weatherapplication.databinding.ActivityMainBinding
+import com.kalamou.weatherapplication.db.AppDatabase
 import com.kalamou.weatherapplication.utils.visibleOrGone
 
 class MainActivity : AppCompatActivity() {
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
         binding.fab.visibleOrGone(true)
-
+        AppDatabase.getDatabase(this).dataDao().getData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
