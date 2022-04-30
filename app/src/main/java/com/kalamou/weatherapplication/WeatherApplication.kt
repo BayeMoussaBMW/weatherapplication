@@ -10,6 +10,11 @@ open class WeatherApplication : Application() {
     override fun onCreate() {
         super.onCreate()
     }
+    fun getVersionString(): String {
+        // The version name defined in gradle
+        return BuildConfig.VERSION_NAME
+
+    }
 
     open fun isInTest(): Boolean {
         return false

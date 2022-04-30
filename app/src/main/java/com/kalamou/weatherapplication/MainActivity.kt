@@ -9,6 +9,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.kalamou.weatherapplication.databinding.ActivityMainBinding
 import com.kalamou.weatherapplication.db.AppDatabase

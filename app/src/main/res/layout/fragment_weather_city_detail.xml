@@ -57,7 +57,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:textSize="18sp"
-            android:text="@{@string/temperature(data.main.tempMin)}"
+            android:text="@{@string/temperature_min(data.main.tempMin)}"
             app:layout_constraintTop_toBottomOf="@id/imv"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -68,7 +68,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:textSize="18sp"
-            android:text="@{@string/temperature(data.main.tempMax)}"
+            android:text="@{@string/temperature_max(data.main.tempMax)}"
             app:layout_constraintTop_toBottomOf="@id/imv"
             app:layout_constraintEnd_toEndOf="parent"
             />
